@@ -48,15 +48,16 @@ Board::Board(const std::vector<Tile>& p) {
             suffix_max_imbalance[i] = running_max;
         }
     }
-    suffix_max_imbalance[pieces.size()] = 0;
 
+    suffix_max_imbalance[pieces.size()] = 0;
     tile_gcd = ListGCD(pieces); // Precompute the GCD for the board
 }
 
 // Bitwise floodcount validation
 bool Board::hasSolvableRegions() const {
     uint64_t empty = ~occ;
-    if (!empty) return true;
+    if (!empty)
+        return true;
 
     int8_t min_sz = suffix_min_size[piece_index];
     if (min_sz == 0)
@@ -80,7 +81,8 @@ bool Board::hasSolvableRegions() const {
             grow |= (component & NOT_A_FILE) >> 9; // SW
             
             uint64_t new_nodes = grow & empty;
-            if (!new_nodes) break;
+            if (!new_nodes)
+                break;
             
             component |= new_nodes;
             empty &= ~new_nodes;
