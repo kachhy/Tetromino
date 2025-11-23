@@ -74,7 +74,7 @@ public:
         const uint8_t white = BIT_COUNT(p & ~CHECKERBOARD_MASK);
         const int8_t delta = static_cast<int8_t>(black - white);
 
-        history.emplace_back(occ, pos, delta); // Store current occ and new position
+        history.emplace(occ, pos, delta); // Store current occ and new position
         occ |= p;
         current_imbalance += delta;
         ++piece_index;
@@ -86,7 +86,7 @@ public:
         const auto& last = history.back();
         occ = last.occ;
         current_imbalance -= last.balance_delta;
-        history.pop_back();
+        history.pop();
         --piece_index;
     }
 
