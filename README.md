@@ -3,7 +3,7 @@ Reasonably fast 8x8 Tetromino solver
 
 ## What is this?
 
-This is a solver for an 8x8 tetrimino game. The solver is passed a file with a set of tiles that fit on an 8x8 board, and it tries to find solutions with all tiles on the board.
+This is a solver for an 8x8 tetromino game. The solver is passed a file with a set of tiles that fit on an 8x8 board, and it tries to find solutions with all tiles on the board.
 
 ## Building
 To build the program, run (in the src directory)
