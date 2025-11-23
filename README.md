@@ -47,13 +47,14 @@ I've included a few test cases in the tests folder. The solver can solve all of 
 - complexheavy.txt
 - complexextreme.txt
 - rowsheavy.txt
-- blockssuper.txt
+- blocksextreme3.txt
 
 Some good general test cases are 
 - everything.txt
 - blocksheavy.txt
 - complex.txt
 - blocks.txt
+- blockssuper.txt
 
 ## Technical stuff
 Here are some more technical specifications for the solver.
