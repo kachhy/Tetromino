@@ -12,7 +12,7 @@ std::atomic<bool> finished{false};
 std::vector<Board> task_queue;
 bool silent = false;
 
-void worker_thread(bool one_solution) {
+void worker_thread(const bool one_solution) {
     size_t local_sol_count = 0;
 
     while (!finished) {
@@ -35,7 +35,7 @@ void worker_thread(bool one_solution) {
     solution_count += local_sol_count;
 }
 
-void generateTasks(Board& board, uint8_t depth, uint8_t goal_depth) {
+void generateTasks(Board& board, uint8_t depth, const uint8_t goal_depth) {
     // If we have generated enough depth (2 pieces placed) or run out of pieces,
     // save the state as a task.
     // We target depth 2 (placing piece 0 and piece 1) to create enough granularity.

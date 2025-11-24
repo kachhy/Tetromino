@@ -19,7 +19,7 @@ public:
     const Placement& back() const { return history[used - 1]; }
 
     const Placement& operator[](const size_t index) const { return history[index]; }
-    inline void emplace(uint64_t occ, uint8_t pos, int8_t balance_delta) { 
+    inline void emplace(const uint64_t occ, const uint8_t pos, const int8_t balance_delta) { 
         history[used].occ = occ;
         history[used].pos = pos;
         history[used].balance_delta = balance_delta;
