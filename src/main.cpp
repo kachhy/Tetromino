@@ -78,6 +78,16 @@ void generateTasks(Board& board, uint8_t depth, const uint8_t goal_depth) {
     }
 }
 
+inline void singleSolve(Board& board, const bool one_sol) {
+    size_t dummy_count = 0;
+    bool found_solution = solve(board, dummy_count, one_sol, silent);
+
+    if (!found_solution)
+        std::cout << "No solutions." << std::endl;
+    else if (!one_sol)
+        std::cout << "\nFound " << dummy_count << (dummy_count == 1 ? " solution." : " solutions.") << std::endl;
+}
+
 void threadManager(const std::vector<Tile>& tiles, const bool one_sol, const size_t num_threads) {
     Board board(tiles);
     
@@ -90,13 +100,7 @@ void threadManager(const std::vector<Tile>& tiles, const bool one_sol, const siz
     // Single threaded or multi threaded?
     if (num_threads == 0 || num_threads == 1) {
         // We can just run the tasks sequentially
-        size_t dummy_count = 0;
-        bool found_solution = solve(board, dummy_count, one_sol, silent);
-
-        if (!found_solution)
-            std::cout << "No solutions." << std::endl;
-        else if (!one_sol)
-            std::cout << "\nFound " << dummy_count << (dummy_count == 1 ? " solution." : " solutions.") << std::endl;
+        singleSolve(board, one_sol);
     } else {
         // Pre-generate tasks by expanding the first few levels of the tree
         // If we only have 1 piece, depth 2 will cover it (depth 1 logic handles board.done())
@@ -121,8 +125,12 @@ int main(int argc, char* argv[]) {
     std::ios_base::sync_with_stdio(false);
     std::cin.tie(NULL);
 
-    if (argc < 2) { 
+    if (argc < 2) {
+#ifndef NOMULTIT
         std::cerr << "Usage: " << argv[0] << " <tile file> [--all-solutions] [--threads <num_threads>] [--color] [--blocks] [--silent] [--flat]" <<  std::endl;
+#else
+        std::cerr << "Usage: " << argv[0] << " <tile file> [--all-solutions] [--color] [--blocks] [--silent] [--flat]" <<  std::endl;
+#endif
         return 1;
     }
 
@@ -143,6 +151,7 @@ int main(int argc, char* argv[]) {
             silent = true;
         else if (arg == "--flat")
             Board::setUseFlatOutput(true);
+#ifndef NOMULTIT
         else if (arg == "--threads") {
             if (i + 1 < argc)
                 threads = static_cast<size_t>(atoi(argv[++i]));
@@ -151,6 +160,7 @@ int main(int argc, char* argv[]) {
                 return 1;
             }
         }
+#endif
     }
 
     if (!Board::use_ansi_colors && Board::use_block_characters) {
@@ -213,7 +223,12 @@ int main(int argc, char* argv[]) {
     });
 
     // Start our solver
+#ifndef NOMULTIT
     threadManager(tiles, one_sol, threads);
+#else
+    Board board(tiles);
+    singleSolve(board, one_sol);
+#endif
 
     return 0;
 }

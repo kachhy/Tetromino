@@ -60,7 +60,7 @@ bool Board::hasSolvableRegions() const {
         return true;
 
     int8_t min_sz = suffix_min_size[piece_index];
-    if (min_sz == 0)
+    if (!min_sz)
         return true; 
 
     while (empty) {

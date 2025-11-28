@@ -10,6 +10,10 @@ To build the program, run (in the src directory)
 ```sh
 g++ *.cpp -o solver -O3 -flto -march=native
 ```
+or to compile without multithreading
+```sh
+g++ *.cpp -o solver -O3 -flto -march=native -DNOMULTIT
+```
 
 ## Usage
 To use the solver, run the solver
