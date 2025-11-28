@@ -98,10 +98,10 @@ void threadManager(const std::vector<Tile>& tiles, const bool one_sol, const siz
     task_queue.clear();
     
     // Single threaded or multi threaded?
-    if (num_threads == 0 || num_threads == 1) {
+    if (num_threads == 0 || num_threads == 1)
         // We can just run the tasks sequentially
         singleSolve(board, one_sol);
-    } else {
+    else {
         // Pre-generate tasks by expanding the first few levels of the tree
         // If we only have 1 piece, depth 2 will cover it (depth 1 logic handles board.done())
         generateTasks(board, 0, 2); // TODO: we can implement dynamic depth scaling
