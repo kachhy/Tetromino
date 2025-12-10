@@ -52,7 +52,7 @@ class Board {
     int current_imbalance;
 
 public:
-    Board() = delete;
+    Board() = default;
     Board(const std::vector<Tile>& p);
 
     constexpr char currentPieceChar() const { return 'a' + piece_index; }

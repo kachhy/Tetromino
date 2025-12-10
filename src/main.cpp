@@ -1,28 +1,32 @@
 #include <fstream>
 #include <thread>
 #include <atomic>
+#include "ThreadedPriorityQueue/src/threaded_priority_queue.h"
 #include "solver.h"
+
+#define TASK_QUEUE_SIZE 4096
+
+// Threaded priority queue for tasks
+struct BoardComparator {
+    bool operator()(const Board& a, const Board& b) const {
+        return BIT_COUNT(a.hash()) < BIT_COUNT(b.hash()); // prioritize less filled boards (hash is just the occupacny)
+    }
+};
 
 // Global synchronization
 std::atomic<size_t> solution_count{0};
-std::atomic<size_t> next_task_index{0};
 std::atomic<bool> finished{false};
+ThreadedPriorityQueue<Board, BoardComparator> task_queue(TASK_QUEUE_SIZE); // The queue for all board related tasks.
 
 // Shared task queue and silent status
-std::vector<Board> task_queue;
 bool silent = false;
 
 void worker_thread(const bool one_solution) {
     size_t local_sol_count = 0;
 
-    while (!finished) {
-        size_t my_task_idx = next_task_index.fetch_add(1); // Grab the next task
-        
-        if (my_task_idx >= task_queue.size())
-            break;
-
+    while (!finished && !task_queue.empty()) {
         // Make a local copy to work on
-        Board board = task_queue[my_task_idx];
+        Board board = task_queue.pop(); // Get the top element of the priority queue and pop it.
         size_t internal_count = 0;
         bool result = solve(board, internal_count, one_solution, silent);
 
@@ -40,7 +44,7 @@ void generateTasks(Board& board, uint8_t depth, const uint8_t goal_depth) {
     // save the state as a task.
     // We target depth 2 (placing piece 0 and piece 1) to create enough granularity.
     if (depth == goal_depth || board.done()) {
-        task_queue.push_back(board);
+        task_queue.unsafe_push(board); // Unsafe push because this is the only thread accesssing
         return;
     }
 
@@ -93,9 +97,9 @@ void threadManager(const std::vector<Tile>& tiles, const bool one_sol, const siz
     
     // Reset globals
     solution_count = 0;
-    next_task_index = 0;
+    // next_task_index = 0;
     finished = false;
-    task_queue.clear();
+    // task_queue.clear();
     
     // Single threaded or multi threaded?
     if (num_threads == 0 || num_threads == 1)
