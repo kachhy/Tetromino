@@ -1,0 +1,3 @@
+[submodule "src/ThreadedPriorityQueue"]
+	path = src/ThreadedPriorityQueue
+	url = https://github.com/kachhy/ThreadedPriorityQueue.git
