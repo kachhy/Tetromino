@@ -21,7 +21,7 @@ ThreadedPriorityQueue<Board, BoardComparator> task_queue(TASK_QUEUE_SIZE); // Th
 // Shared task queue and silent status
 bool silent = false;
 
-void worker_thread(const bool one_solution) {
+void workerThread(const bool one_solution) {
     size_t local_sol_count = 0;
 
     while (!finished && !task_queue.empty()) {
@@ -113,7 +113,7 @@ void threadManager(const std::vector<Tile>& tiles, const bool one_sol, const siz
         threads.reserve(num_threads);
 
         for (size_t i = 0; i < num_threads; ++i)
-            threads.emplace_back(worker_thread, one_sol);
+            threads.emplace_back(workerThread, one_sol);
 
         for (std::thread& t : threads)
             t.join();
