@@ -8,11 +8,11 @@ This is a solver for an 8x8 tetromino game. The solver is passed a file with a s
 ## Building
 To build the program, run (in the src directory)
 ```sh
-g++ *.cpp -o solver -O3 -flto -march=native
+g++ *.cpp -o solver -O3 -flto -march=native -std=c++17
 ```
 or to compile without multithreading
 ```sh
-g++ *.cpp -o solver -O3 -flto -march=native -DNOMULTIT
+g++ *.cpp -o solver -O3 -flto -march=native -std=c++17 -DNOMULTIT
 ```
 
 ## Usage
