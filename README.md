@@ -66,6 +66,7 @@ Here are some more technical specifications for the solver.
 - Bitboard representation of the tetromino board, allowing for blazingly fast occupancy checks and updates
 - A bitwise flood fill board checker ensures boards with impossible regions are backtracked immediately
     - Additionally, we precompute the GCD of every piece to ensure that areas are divisible by the pieces provided
+    - This is only run after roughly half the board is filled, as to avoid overhead in positions with trivial placements
 - Checkerboard parity checking ensures that impossible solutions due to parity of coloring are pruned at all search depths
 - Symmetry breaking by fixing the first tile in the canonical octant, as flips and rotations and flips are considered non-unique
 - Restrictive tile grouping reduces the search tree earlier
