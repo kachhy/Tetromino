@@ -17,11 +17,12 @@ bool solve(Board& board, size_t& solution_count, const bool one_solution, const 
     // This actually may be removed later since it's unclear if it gives a benefit to speed (even though it should)
     if (std::abs(board.getCurrentImbalance()) > board.getSuffixMaxImbalance())
         return false;
-
-    if (!board.hasSolvableRegions())
+    
+    // Optimization: Only run HSR after a significant part of the board has been filled
+    const Tile t = board.getCurrentPiece();
+    if (board.openSquares() + t.p_height * t.p_width > 32 && !board.hasSolvableRegions())
         return false;
     
-    const Tile t = board.getCurrentPiece();
     const size_t current_piece_index = board.getPieceIndex();
     const uint64_t placements = board.placements();
     const uint64_t piece = t.repr;
@@ -55,7 +56,7 @@ bool solve(Board& board, size_t& solution_count, const bool one_solution, const 
             const uint64_t placed_piece = piece << i;
             if ((placed_piece & placements) != placed_piece)
                 continue;
-            
+
             board.place(piece, i);
             bool this_result = solve(board, solution_count, one_solution, silent);
 

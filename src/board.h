@@ -61,6 +61,7 @@ public:
     constexpr size_t getPieceIndex() const { return piece_index; }
     uint8_t getLastPlacementPos() const { return history.empty() ? 0 : history.back().pos; }
     constexpr uint64_t placements() const { return ~occ; }
+    constexpr uint8_t openSquares() const { return BIT_COUNT(~occ); }
     constexpr size_t hash() const { return occ; }
     bool done() const { return piece_index == pieces.size(); }
     char getChar(const uint8_t x, const uint8_t y) const;
