@@ -112,6 +112,7 @@ uint64_t Board::complexityScore() const {
 
     if (temp != 1ULL << 63)
         score += temp;
+        
     return score;
 }
 
