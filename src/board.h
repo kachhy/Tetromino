@@ -68,7 +68,7 @@ public:
     inline int getSuffixMaxImbalance() const { return suffix_max_imbalance[piece_index]; }
     inline int getCurrentImbalance() const { return current_imbalance; }
     char getChar(const uint8_t x, const uint8_t y) const;
-    uint32_t complexityScore() const;
+    uint64_t complexityScore() const;
 
     inline void place(const uint64_t piece, const uint8_t pos) {
         const uint64_t p = piece << pos;

@@ -96,21 +96,22 @@ bool Board::hasSolvableRegions() const {
     return true;
 }
 
-uint32_t Board::complexityScore() const {
-    uint32_t score = 0;
-    uint16_t temp = 1;
+uint64_t Board::complexityScore() const {
+    uint64_t score = 0;
+    uint64_t temp = 1ULL << 63;
     for (size_t i = 0; i < 64; ++i) {
         if (temp) {
             if (occ & (1ULL << i))
-                temp <<= 1;
+                temp >>= 1;
             else {
                 score += temp;
-                temp = 1;
+                temp = 1ULL << 63;
             }
         }
     }
 
-    score += temp;
+    if (temp != 1ULL << 63)
+        score += temp;
     return score;
 }
 
