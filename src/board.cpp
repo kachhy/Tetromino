@@ -96,6 +96,24 @@ bool Board::hasSolvableRegions() const {
     return true;
 }
 
+uint32_t Board::complexityScore() const {
+    uint32_t score = 0;
+    uint16_t temp = 1;
+    for (size_t i = 0; i < 64; ++i) {
+        if (temp) {
+            if (occ & (1ULL << i))
+                temp <<= 1;
+            else {
+                score += temp;
+                temp = 1;
+            }
+        }
+    }
+
+    score += temp;
+    return score;
+}
+
 char Board::getChar(const uint8_t x, const uint8_t y) const {
     uint64_t mask = 1ULL << (y * 8 + x);
     if (!(occ & mask))

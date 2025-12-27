@@ -9,7 +9,7 @@
 // Threaded priority queue for tasks
 struct BoardComparator {
     bool operator()(const Board& a, const Board& b) const {
-        return BIT_COUNT(a.hash()) < BIT_COUNT(b.hash()); // prioritize less filled boards (hash is just the occupacny)
+        return a.complexityScore() < b.complexityScore(); // prioritize less filled boards (hash is just the occupacny)
     }
 };
 

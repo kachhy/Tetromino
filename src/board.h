@@ -56,18 +56,19 @@ public:
     Board(const std::vector<Tile>& p);
 
     constexpr char currentPieceChar() const { return 'a' + piece_index; }
-    Tile getCurrentPiece() const { return pieces[piece_index]; }
-    Tile getPiece(size_t index) const { return pieces[index]; }
     constexpr size_t getPieceIndex() const { return piece_index; }
-    uint8_t getLastPlacementPos() const { return history.empty() ? 0 : history.back().pos; }
     constexpr uint64_t placements() const { return ~occ; }
-    constexpr uint8_t openSquares() const { return BIT_COUNT(~occ); }
     constexpr size_t hash() const { return occ; }
-    bool done() const { return piece_index == pieces.size(); }
+    inline Tile getCurrentPiece() const { return pieces[piece_index]; }
+    inline Tile getPiece(size_t index) const { return pieces[index]; }
+    inline uint8_t getLastPlacementPos() const { return history.empty() ? 0 : history.back().pos; }
+    inline uint8_t openSquares() const { return BIT_COUNT(~occ); }
+    inline bool done() const { return piece_index == pieces.size(); }
+    inline size_t numPieces() const { return pieces.size(); }
+    inline int getSuffixMaxImbalance() const { return suffix_max_imbalance[piece_index]; }
+    inline int getCurrentImbalance() const { return current_imbalance; }
     char getChar(const uint8_t x, const uint8_t y) const;
-    size_t numPieces() const { return pieces.size(); }
-    int getSuffixMaxImbalance() const { return suffix_max_imbalance[piece_index]; }
-    int getCurrentImbalance() const { return current_imbalance; }
+    uint32_t complexityScore() const;
 
     inline void place(const uint64_t piece, const uint8_t pos) {
         const uint64_t p = piece << pos;
