@@ -103,6 +103,8 @@ public:
     static void setUseBlockCharacters(bool enable) { use_block_characters = enable; }
     static bool use_flat_output;
     static void setUseFlatOutput(bool enable) { use_flat_output = enable; }
+    static bool encode_output;
+    static void setUseEncodeOutput(bool enable) { encode_output = enable; }
 };
 
 template<> struct std::hash<Board> {

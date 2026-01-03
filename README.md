@@ -41,6 +41,10 @@ These only work with an ANSI-compatible terminal. To get a flat output (one solu
 ```sh
 ./solver <input_file> --flat
 ```
+Another flat output, encode mode, encodes the block sizes one-by one as they are represented in the board. This supports color mode (the color corresponds to the count rather than the block ID).
+```sh
+./solver <input_file> --encode
+```
 And if you want no output except the number of solutions found (with all solutions enabled), use
 ```sh
 ./solver <input_file> --silent

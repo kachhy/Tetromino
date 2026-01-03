@@ -131,9 +131,9 @@ int main(int argc, char* argv[]) {
 
     if (argc < 2) {
 #ifndef NOMULTIT
-        std::cerr << "Usage: " << argv[0] << " <tile file> [--all-solutions] [--threads <num_threads>] [--color] [--blocks] [--silent] [--flat]" <<  std::endl;
+        std::cerr << "Usage: " << argv[0] << " <tile file> [--all-solutions] [--threads <num_threads>] [--color] [--blocks] [--silent] [--flat] [--encode]" <<  std::endl;
 #else
-        std::cerr << "Usage: " << argv[0] << " <tile file> [--all-solutions] [--color] [--blocks] [--silent] [--flat]" <<  std::endl;
+        std::cerr << "Usage: " << argv[0] << " <tile file> [--all-solutions] [--color] [--blocks] [--silent] [--flat] [--encode]" <<  std::endl;
 #endif
         return 1;
     }
@@ -154,7 +154,9 @@ int main(int argc, char* argv[]) {
         else if (arg == "--silent")
             silent = true;
         else if (arg == "--flat")
-            Board::setUseFlatOutput(true);
+        Board::setUseFlatOutput(true);
+        else if (arg == "--encode")
+            Board::setUseEncodeOutput(true);
 #ifndef NOMULTIT
         else if (arg == "--threads") {
             if (i + 1 < argc)

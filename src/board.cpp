@@ -6,6 +6,7 @@
 bool Board::use_ansi_colors = false;
 bool Board::use_block_characters = false;
 bool Board::use_flat_output = false;
+bool Board::encode_output = false;
 
 // Helper function to get the GCD of a given vector of numbers
 uint8_t ListGCD(const std::vector<Tile>& nums) {
@@ -164,10 +165,28 @@ std::ostream& operator<<(std::ostream& out, const Board& board) {
     char buffer[745]; // Max board output size including ANSI characters
     size_t ptr = 0;
     
-    if (!Board::use_flat_output) {
+    if (!Board::use_flat_output && !Board::encode_output) {
         const char* header = "Board:\n";
         while (*header)
             buffer[ptr++] = *header++;
+    }
+    
+    if (Board::encode_output) {
+        char cur_char = board.getChar(0, 0);
+        uint8_t count = 0;
+        for (uint8_t y = 0; y < 8; ++y) {
+            for (uint8_t x = 0; x < 8; ++x, ++count) {
+                if (board.getChar(x, y) != cur_char) {
+                    uint8_t color_idx = count % NUM_COLORS;
+                    const char* color = ANSI_COLORS[color_idx];
+                    out << color << static_cast<char>(count + 'a') << ANSI_RESET;
+                    cur_char = board.getChar(x, y);
+                    count = 0;
+                }
+            }
+        }
+        out << '\n';
+        return out;
     }
     
     for (uint8_t y = 0; y < 8; ++y) {
