@@ -1,11 +1,22 @@
 #include <fstream>
 #include <thread>
 #include <atomic>
-#include "ThreadedPriorityQueue/src/threaded_priority_queue.h"
 #include "solver.h"
+
+#ifndef NOMULTIT
+#include "ThreadedPriorityQueue/src/threaded_priority_queue.h"
+#endif
 
 #define TASK_QUEUE_SIZE 4096
 
+// Global synchronization
+std::atomic<size_t> solution_count{0};
+std::atomic<bool> finished{false};
+
+// Shared task queue and silent status
+bool silent = false;
+
+#ifndef NOMULTIT
 // Threaded priority queue for tasks
 struct BoardComparator {
     bool operator()(const Board& a, const Board& b) const {
@@ -13,13 +24,7 @@ struct BoardComparator {
     }
 };
 
-// Global synchronization
-std::atomic<size_t> solution_count{0};
-std::atomic<bool> finished{false};
 ThreadedPriorityQueue<Board, BoardComparator> task_queue(TASK_QUEUE_SIZE); // The queue for all board related tasks.
-
-// Shared task queue and silent status
-bool silent = false;
 
 void workerThread(const bool one_solution) {
     size_t local_sol_count = 0;
@@ -82,16 +87,6 @@ void generateTasks(Board& board, uint8_t depth, const uint8_t goal_depth) {
     }
 }
 
-inline void singleSolve(Board& board, const bool one_sol) {
-    size_t dummy_count = 0;
-    bool found_solution = solve(board, dummy_count, one_sol, silent);
-
-    if (!found_solution)
-        std::cout << "No solutions." << std::endl;
-    else if (!one_sol)
-        std::cout << "\nFound " << dummy_count << (dummy_count == 1 ? " solution." : " solutions.") << std::endl;
-}
-
 void threadManager(const std::vector<Tile>& tiles, const bool one_sol, const size_t num_threads) {
     Board board(tiles);
     
@@ -123,6 +118,17 @@ void threadManager(const std::vector<Tile>& tiles, const bool one_sol, const siz
         else
             std::cout << "\nFound " << solution_count << (solution_count == 1 ? " solution." : " solutions.") << std::endl;
     }
+}
+#endif
+
+inline void singleSolve(Board& board, const bool one_sol) {
+    size_t dummy_count = 0;
+    bool found_solution = solve(board, dummy_count, one_sol, silent);
+
+    if (!found_solution)
+        std::cout << "No solutions." << std::endl;
+    else if (!one_sol)
+        std::cout << "\nFound " << dummy_count << (dummy_count == 1 ? " solution." : " solutions.") << std::endl;
 }
 
 int main(int argc, char* argv[]) {
