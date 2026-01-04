@@ -179,7 +179,12 @@ std::ostream& operator<<(std::ostream& out, const Board& board) {
                 if (board.getChar(x, y) != cur_char) {
                     uint8_t color_idx = count % NUM_COLORS;
                     const char* color = ANSI_COLORS[color_idx];
-                    out << color << static_cast<char>(count + 'a') << ANSI_RESET;
+                    
+                    if (Board::use_ansi_colors)
+                        out << color << static_cast<char>(count + 'a') << ANSI_RESET;
+                    else
+                        out << static_cast<char>(count + 'a');
+                        
                     cur_char = board.getChar(x, y);
                     count = 0;
                 }
