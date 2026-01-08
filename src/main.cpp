@@ -20,7 +20,7 @@ bool silent = false;
 // Threaded priority queue for tasks
 struct BoardComparator {
     bool operator()(const Board& a, const Board& b) const {
-        return a.complexityScore() < b.complexityScore(); // prioritize more complex boards (hash is just the occupacny)
+        return a.complexityScore() < b.complexityScore(); // prioritize more complex boards
     }
 };
 
