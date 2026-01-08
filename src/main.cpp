@@ -26,6 +26,8 @@ struct BoardComparator {
 
 ThreadedPriorityQueue<Board, BoardComparator> task_queue(TASK_QUEUE_SIZE); // The queue for all board related tasks.
 
+inline void singleSolve(Board& board, const bool one_sol);
+
 void workerThread(const bool one_solution) {
     size_t local_sol_count = 0;
 
