@@ -33,7 +33,7 @@ bool solve(Board& board, size_t& solution_count, const bool one_solution, const 
     if (current_piece_index > 0 && board.getPiece(current_piece_index) == board.getPiece(current_piece_index - 1))
         start_pos = board.getLastPlacementPos() + 1;
     
-    // Possible placements and piece bitmask
+    // Possible placements and piece bitmasks
     const uint64_t placements = board.placements();
     const uint64_t piece = t.repr;
 
