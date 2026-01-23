@@ -59,14 +59,16 @@ public:
     constexpr size_t getPieceIndex() const { return piece_index; }
     constexpr uint64_t placements() const { return ~occ; }
     constexpr size_t hash() const { return occ; }
+
     inline Tile getCurrentPiece() const { return pieces[piece_index]; }
     inline Tile getPiece(size_t index) const { return pieces[index]; }
     inline uint8_t getLastPlacementPos() const { return history.empty() ? 0 : history.back().pos; }
     inline uint8_t openSquares() const { return BIT_COUNT(~occ); }
-    inline bool done() const { return piece_index == pieces.size(); }
     inline size_t numPieces() const { return pieces.size(); }
+    inline bool done() const { return piece_index == pieces.size(); }
     inline int getSuffixMaxImbalance() const { return suffix_max_imbalance[piece_index]; }
     inline int getCurrentImbalance() const { return current_imbalance; }
+
     char getChar(const uint8_t x, const uint8_t y) const;
     uint64_t complexityScore() const;
 
@@ -81,6 +83,7 @@ public:
         current_imbalance += delta;
         ++piece_index;
     }
+    
     inline void pop() {
         if (history.empty())
             return;
@@ -92,8 +95,10 @@ public:
         --piece_index;
     }
 
+    // Floodfill verification
     bool hasSolvableRegions() const;
 
+    // Operator overloads
     bool operator==(const Board& other) const { return occ != other.occ; }
 
     // For color printing to make output readable :)

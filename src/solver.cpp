@@ -24,16 +24,18 @@ bool solve(Board& board, size_t& solution_count, const bool one_solution, const 
         return false;
     
     const size_t current_piece_index = board.getPieceIndex();
-    const uint64_t placements = board.placements();
-    const uint64_t piece = t.repr;
     size_t start_pos = 0;
     bool result = false;
-
+    
     // If the current piece is identical to the previous one,
     // its placement must start after the previous piece's placement because they are grouped together.
     // This prevents solutions with switched identical pieces being considered identical
     if (current_piece_index > 0 && board.getPiece(current_piece_index) == board.getPiece(current_piece_index - 1))
         start_pos = board.getLastPlacementPos() + 1;
+    
+    // Possible placements and piece bitmask
+    const uint64_t placements = board.placements();
+    const uint64_t piece = t.repr;
 
     // Iterate through all possible top-left placement positions
     const uint8_t start_y = start_pos / 8;
