@@ -13,11 +13,11 @@ uint8_t ListGCD(const std::vector<Tile>& nums) {
 	if (nums.empty())
 		return 0;
 
-	uint8_t g = BIT_COUNT(nums[0].repr);
+	uint8_t gcd = BIT_COUNT(nums[0].repr);
 	for (uint8_t i = 1; i < nums.size(); ++i)
-		g = std::gcd(g, static_cast<uint8_t>(BIT_COUNT(nums[i].repr)));
+		gcd = std::gcd(gcd, static_cast<uint8_t>(BIT_COUNT(nums[i].repr)));
 
-	return static_cast<uint8_t>(g);
+	return static_cast<uint8_t>(gcd);
 }
 
 Board::Board(const std::vector<Tile>& p) {
@@ -60,7 +60,7 @@ bool Board::hasSolvableRegions() const {
 	if (!empty)
 		return true;
 
-	int8_t min_sz = suffix_min_size[piece_index];
+	const int8_t min_sz = suffix_min_size[piece_index];
 	if (!min_sz)
 		return true;
 
