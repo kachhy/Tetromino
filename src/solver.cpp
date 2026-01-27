@@ -48,7 +48,7 @@ bool solve(Board& board, size_t& solution_count, const bool one_solution, const 
 		for (uint8_t x = current_start_x; x <= max_x; ++x) {
 			uint8_t i = y * 8 + x;
 			// Symmetry breaking for the first piece: restrict to canonical octant
-			if (current_piece_index == 0) {
+			if (!board.symmetryBroken()) {
 				uint8_t y = i / 8;
 				uint8_t x = i % 8;
 				if (y > 3 || x > 3 || y > x)

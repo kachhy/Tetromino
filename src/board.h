@@ -15,6 +15,7 @@
 #define CHECKERBOARD_MASK (0xAA55AA55AA55AA55ULL)
 #define NOT_A_FILE		  (0xFEFEFEFEFEFEFEFEULL)
 #define NOT_H_FILE		  (0x7F7F7F7F7F7F7F7FULL)
+#define FIRST_QUAD        (0x0F0F0F0FFFFFFFFFULL)
 
 struct Tile {
 	uint64_t repr;
@@ -68,6 +69,7 @@ public:
 	inline bool done() const { return piece_index == pieces.size(); }
 	inline int getSuffixMaxImbalance() const { return suffix_max_imbalance[piece_index]; }
 	inline int getCurrentImbalance() const { return current_imbalance; }
+	inline bool symmetryBroken() const  { return occ & FIRST_QUAD; }
 
 	char getChar(const uint8_t x, const uint8_t y) const;
 	uint64_t complexityScore() const;
