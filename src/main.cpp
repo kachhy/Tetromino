@@ -104,7 +104,7 @@ void threadManager(const std::vector<Tile>& tiles, const bool one_sol, const siz
 	else {
 		// Pre-generate tasks by expanding the first few levels of the tree
 		// If we only have 1 piece, depth 2 will cover it (depth 1 logic handles board.done())
-		generateTasks(board, 0, 2); // TODO: we can implement dynamic depth scaling
+		generateTasks(board, 0, 3); // TODO: we can implement dynamic depth scaling
 		std::vector<std::thread> threads;
 		threads.reserve(num_threads);
 
