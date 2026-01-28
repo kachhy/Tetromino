@@ -66,8 +66,7 @@ void generateTasks(Board& board, uint8_t depth, const uint8_t goal_depth) {
 		start_pos = board.getLastPlacementPos() + 1;
 
 	for (size_t i = start_pos; i < 64; ++i) {
-		// Symmetry breaking for the VERY first piece (Piece 0 only)
-		if (current_piece_index == 0) {
+		if (!board.symmetryBroken()) {
 			uint8_t y = i / 8;
 			uint8_t x = i % 8;
 			if (y > 3 || x > 3 || y > x)
