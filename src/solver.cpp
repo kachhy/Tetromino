@@ -29,8 +29,8 @@ bool solve(Board& board, size_t& solution_count, const bool one_solution, const 
 	// If the current piece is identical to the previous one,
 	// its placement must start after the previous piece's placement because they are grouped together.
 	// This prevents solutions with switched identical pieces being considered identical
-	size_t start_pos = (current_piece_index > 0 && board.getPiece(current_piece_index) == board.getPiece(current_piece_index - 1)) ? 
-					    board.getLastPlacementPos() + 1 : 0;
+	const size_t start_pos = (current_piece_index > 0 && board.getPiece(current_piece_index) == board.getPiece(current_piece_index - 1)) ? 
+					          board.getLastPlacementPos() + 1 : 0;
 
 	// Possible placements and piece bitmasks
 	const uint64_t placements = board.placements();
