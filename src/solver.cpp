@@ -43,13 +43,13 @@ bool solve(Board& board, size_t& solution_count, const bool one_solution, const 
 	const uint8_t max_x = 7 - t.p_width;
 
 	for (uint8_t y = start_y; y <= max_y; ++y) {
-		uint8_t current_start_x = (y == start_y) ? start_x : 0;
+		const uint8_t current_start_x = (y == start_y) ? start_x : 0;
 		for (uint8_t x = current_start_x; x <= max_x; ++x) {
-			uint8_t i = y * 8 + x;
+			const uint8_t i = y * 8 + x;
 			// Symmetry breaking for the first piece: restrict to canonical octant
 			if (!board.symmetryBroken()) {
-				uint8_t y = i / 8;
-				uint8_t x = i % 8;
+				const uint8_t y = i / 8;
+				const uint8_t x = i % 8;
 				if (y > 3 || x > 3 || y > x)
 					continue;
 			}
@@ -59,7 +59,7 @@ bool solve(Board& board, size_t& solution_count, const bool one_solution, const 
 				continue;
 
 			board.place(piece, i);
-			bool this_result = solve(board, solution_count, one_solution, silent);
+			const bool this_result = solve(board, solution_count, one_solution, silent);
 
 			if (this_result) {
 				if (one_solution)
